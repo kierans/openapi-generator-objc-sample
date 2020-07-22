@@ -1,0 +1,47 @@
+buildscript {
+  repositories {
+    google()
+    jcenter()
+  }
+}
+
+plugins {
+  id 'org.openapi.generator' version '4.3.1'
+}
+
+allprojects {
+  repositories {
+    google()
+    jcenter()
+  }
+}
+
+task("generateObjc", type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+  group = "SDK Generators"
+  description = "Generates Objc code for spec"
+  generatorName = "objc"
+  validateSpec = true
+
+  inputSpec = "petstore.yaml"
+  outputDir = "./objc"
+
+  groupId = "com.openapigenerator.sample"
+  id = "sdk-objc"
+  packageName = "com.openapigenerator.sample.sdk"
+  apiPackage = "com.openapigenerator.sample.api"
+  invokerPackage = "com.openapigenerator.sample.client"
+  modelPackage = "com.openapigenerator.sample.dto"
+
+  generateModelTests = false
+  generateModelDocumentation = false
+  generateApiTests = false
+}
+
+task dumpScriptClasspath {
+  group = "SDK Generators"
+  description = "Dumps buildscript classpath to console"
+
+  doLast {
+    buildscript.configurations.classpath.each { println it }
+  }
+}
